@@ -1,0 +1,24 @@
+version : '3.9'
+
+services:
+  django:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8425
+    volumes:
+      - .:/code
+    ports:
+      - "8425:8425"
+    environment:
+        - DEBUG = 1   # Assuming you have a DEBUG environment variable
+
+  react:
+    build:
+      context: ../my-react-app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - django
+
